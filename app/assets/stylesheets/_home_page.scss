@@ -1,0 +1,28 @@
+.home-page-header {
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(12, 1fr);
+    padding: 2.5rem;
+}
+.home-page-title {
+    font-family: "La Belle Aurore", cursive;
+    font-weight: 400;
+    font-style: normal;
+    grid-column: span 10;
+}
+.home-page-background {
+    position: relative;
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin: 0;
+}
+.home-page-header, .jumbotron {
+    position: relative;
+    z-index: 2; /* Ensures text stays above the overlay */
+}
+.create-recipe-button {
+    @extend .green-button;
+    grid-column: span 2;
+    display: grid;
+}

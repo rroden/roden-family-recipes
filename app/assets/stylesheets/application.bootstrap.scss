@@ -1,0 +1,173 @@
+@import 'bootstrap/scss/bootstrap';
+@import 'bootstrap-icons/font/bootstrap-icons';
+@import 'home_page';
+
+.bg_primary-color {
+  background-color: #FFFFFF;
+}
+.primary-color {
+  background-color: #FFFFFF;
+}
+.bg_secondary-color {
+  background-color: #293241;
+}
+.secondary-color {
+  color: #293241;
+}
+.green-color {
+  color: #96B7A0;
+}
+.secondary-title {
+  font-family: "La Belle Aurore", cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 2rem;
+}
+.create-page-title {
+  @extend .home-page-title;
+  grid-column: span 11;
+}
+.base-button {
+  font-style: normal;
+  color:#293241;
+  text-align: center;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border: none;
+  box-shadow: 0 0.1rem 0.2rem 0 rgba(0,0,0,0.2), 0 0.4rem 0.6rem 0 rgba(0,0,0,0.19);
+  border-radius: 0.4rem;
+}
+.green-button {
+  @extend .base-button;
+  font-family: "La Belle Aurore", cursive;
+  background-color: #96B7A0;
+}
+.save-button {
+  @extend .green-button;
+  align-items: center;
+}
+.photo-button {
+  @extend .base-button;
+  background-color: #FBF6EF;
+  font-family: 'Newsreader';
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.dropdown {
+  font-style: normal;
+  color:#293241;
+  text-align: center;
+  place-items: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  border: none;
+  background-color: #FBF6EF;
+  font-family: 'Newsreader';
+  padding-left: 2rem;
+  padding-right: 2rem;
+  max-height: 2.2rem;
+  min-height: 2.2rem;
+}
+.create-recipe-button:hover {
+  background-color: #96B7A0;
+  opacity: 0.8;
+}
+.text-background {
+  background-color: #FBF9F5;
+  border: none;
+}
+.menu {
+  color: #403F3F;
+  justify-self: right;
+}
+.create-recipe-grid {
+  width: 83%;
+  margin-top: 2rem;
+}
+.grid-item {
+  text-align: center;
+  display: flex;
+  align-items: end;
+  height: 100%;
+}
+.category-dropdown{
+  padding-left: 1rem;
+}
+.create-page-background {
+  position: relative;
+  width: 100vw;
+  height: auto;
+  min-height: 100vh;
+}
+.create-page-background::before {
+  content: "";
+  position: fixed; /* Keeps the background fixed */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url("background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: -1; /* Keeps it behind the content */
+}
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(255, 254, 254, 0.4); /* Adjust color & opacity */
+}
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.jumbotron {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Centers the grid container horizontally */
+  height: 100vh;           /* Ensures there's space to center */
+}
+.create-recipe-form {
+  position: relative;
+  margin-top: 1rem;
+  padding-right: 3rem;
+  padding-left: 3rem;
+  padding-bottom: 3rem;
+  padding-top: 1.5rem;
+  font-family: 'Newsreader';
+  font-size: 1.2rem;
+  background: rgba(251, 246, 239, 0.75); /* Adjust color & opacity */
+}
+.form-header-row {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+.name-text-background, .description-text-background {
+  @extend .text-background;
+  margin-right: 1rem;
+}
+.form-label, .description-col, .name-col {
+  padding-left: 0rem;
+}
+.large-text-field {
+  @extend .text-background;
+  margin-top: 1.6rem;
+  min-height: 12rem;
+}
+.data-row {
+  margin-top: 2rem;
+}
+.prep-row-text-field {
+  @extend .text-background;
+  margin-left: 2rem;
+}
+.errorMessage {
+  color: crimson;
+}
