@@ -2,13 +2,28 @@ import { useState, useEffect } from "react";
 import CreateFormHeader from "./CreateFormHeader";
 import CreatePageHeader from "./CreatePageHeader";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
+type FormData = {
+  name: string
+  recipe_category_id: string
+  description: string
+  recipe_subcategory_id: string
+  ingredients: string
+  instructions: string
+  notes: string
+  preparation_time: string
+  cook_time: string
+  servings: string
+}
 
 function Create () {
-    const { register, handleSubmit, watch, formState: {errors}, clearErrors } = useForm();
+    const { register, handleSubmit, watch, formState: {errors}, clearErrors } = useForm<FormData>();
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([])
 
-    const selectedCategory = watch("recipe_category_id")
+    const selectedCategory = watch("recipe_category_id");
+    const navigate = useNavigate();
 
     useEffect(() => {
       fetch("/recipe_categories")
@@ -26,7 +41,7 @@ function Create () {
         .catch((error) => console.error("Error fetching subcategories:", error));
     }, []);
 
-    const onSubmit = (data) => {
+    const onSubmit = (data: FormData) => {
         console.log(`Handling submit with ${JSON.stringify(data)}...`);
         const url = "/recipes";
     
@@ -35,7 +50,7 @@ function Create () {
           return;
         }
     
-        const token = document.querySelector('meta[name="csrf-token"]').content;
+        const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
         fetch(url, {
           method: "POST",
           headers: {
@@ -79,7 +94,7 @@ function Create () {
                     id="name"
                     className="name-text-background"
                   />
-                  <div className="text-danger">{errors.name?.message}</div>
+                  <div className="text-danger">{errors.name?.message as string}</div>
                 </div>
                 <div className="col-6 d-flex flex-column">
                   <select 
@@ -92,7 +107,7 @@ function Create () {
                         return <option key={category.id} value={category.id}>{category.name}</option>
                       }) }
                   </select>
-                  <div className="text-danger">{errors.recipe_category_id?.message}</div>
+                  <div className="text-danger">{errors.recipe_category_id?.message as string}</div>
                 </div>
               </div>
               <div className="row data-row">
@@ -110,7 +125,7 @@ function Create () {
                     id="description" 
                     className="description-text-background"
                   />
-                  <div className="text-danger">{errors.description?.message}</div>
+                  <div className="text-danger">{errors.description?.message as string}</div>
                 </div>
                 <div className="col-6 d-flex flex-column">
                   <select 
@@ -142,7 +157,7 @@ function Create () {
                       id="ingredients" 
                       className="large-text-field"
                   />
-                  <div className="text-danger">{errors.ingredients?.message}</div>
+                  <div className="text-danger">{errors.ingredients?.message as string}</div>
               </label>
               <label htmlFor="instructions" className="row data-row">
                   Instructions: 
@@ -151,7 +166,7 @@ function Create () {
                       id="instructions" 
                       className="large-text-field"
                   />
-                  <div className="text-danger">{errors.instructions?.message}</div>
+                  <div className="text-danger">{errors.instructions?.message as string}</div>
               </label>
               <label htmlFor="notes" className="row data-row">
                   Notes: 
@@ -160,7 +175,7 @@ function Create () {
                       id="notes" 
                       className="large-text-field"
                   />
-                  <div className="text-danger">{errors.notes?.message}</div>
+                  <div className="text-danger">{errors.notes?.message as string}</div>
               </label>
               <div className="row data-row">
                 <label htmlFor="prepTime" className="col">
@@ -170,7 +185,7 @@ function Create () {
                     id="prepTime" 
                     className="prep-row-text-field" 
                     ></input>
-                    <div className="text-danger">{errors.preparation_time?.message}</div>
+                    <div className="text-danger">{errors.preparation_time?.message as string}</div>
                 </label>
                 <label htmlFor="cookTime" className="col">
                     Cook Time: 
@@ -179,7 +194,7 @@ function Create () {
                     id="cookTime" 
                     className="prep-row-text-field" 
                     ></input>
-                    <div className="text-danger">{errors.cook_time?.message}</div>
+                    <div className="text-danger">{errors.cook_time?.message as string}</div>
                 </label>
                 <label htmlFor="servings" className="col">
                     Servings: 

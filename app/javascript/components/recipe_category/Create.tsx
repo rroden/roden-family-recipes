@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Create () {
     const [name, setName] = useState("")
     const navigate = useNavigate()
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
         const url = "/recipe_categories";
     
@@ -16,7 +16,8 @@ function Create () {
           name
         };
     
-        const token = document.querySelector('meta[name="csrf-token"]').content;
+        const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
+
         fetch(url, {
           method: "POST",
           headers: {
@@ -44,7 +45,7 @@ function Create () {
             Add a Recipe Category
             </h2>
             <form>
-                <label for="name">
+                <label htmlFor="name">
                     Name:
                     <input 
                         id="name" 

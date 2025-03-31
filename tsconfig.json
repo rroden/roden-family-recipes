@@ -14,5 +14,6 @@
       "jsx": "react-jsx",
       "outDir": "app/assets/builds"
     },
-    "include": ["app/**/*"],
+    "include": ["app/javascript/**/*"],
+    "exclude": ["node_modules"]
   }
