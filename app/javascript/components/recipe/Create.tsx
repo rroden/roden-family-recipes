@@ -18,7 +18,7 @@ type FormData = {
 }
 
 function Create () {
-    const { register, handleSubmit, watch, formState: {errors}, clearErrors } = useForm<FormData>();
+    const { register, handleSubmit, watch, formState: {errors} } = useForm<FormData>();
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([])
 
@@ -79,16 +79,12 @@ function Create () {
             <CreateFormHeader/>
             {/* The Form: */}
             <form onSubmit={handleSubmit(onSubmit)} className="create-recipe-form">
+              {/* First row - name & category */}
               <div className="row data-row">
-                <label htmlFor="name" className="col-6 form-label">
-                  Name: 
-                </label>
-                <label htmlFor="category" className="category-dropdown col">
-                  Category:
-                </label>
-              </div>
-              <div className="row form-label">
-                <div className="col-6 d-flex flex-column name-col">
+                <div className="col-12 col-md-6 d-flex flex-column name-col gx-0 gx-md-3">
+                  <label htmlFor="name" className="col-6 form-label">
+                    Name: 
+                  </label>
                   <input
                     {...register("name", {required: "Name is required", maxLength: {value: 50, message: "Title cannot be longer than 50 characters"}})}
                     id="name"
@@ -96,7 +92,10 @@ function Create () {
                   />
                   <div className="text-danger">{errors.name?.message as string}</div>
                 </div>
-                <div className="col-6 d-flex flex-column">
+                <div className="col-12 col-md-6 d-flex flex-column gx-0 gx-md-3">
+                  <label htmlFor="category" className="category-dropdown col">
+                    Category:
+                  </label>
                   <select 
                     {...register("recipe_category_id", {required: "Category is required"})} 
                     className="dropdown col" 
@@ -110,16 +109,12 @@ function Create () {
                   <div className="text-danger">{errors.recipe_category_id?.message as string}</div>
                 </div>
               </div>
+              {/* Second row: */}
               <div className="row data-row">
-                <label htmlFor="description" className="col-6 align-items-stretch form-label">
-                  Description: 
-                </label>
-                <label htmlFor="subcategory" className="category-dropdown col">
-                  Subcategory:
-                </label>
-              </div>
-              <div className="row form-label">
-                <div className="col-6 d-flex flex-column description-col">
+                <div className="col-12 col-md-6 d-flex flex-column description-col gx-0 gx-md-3">
+                  <label htmlFor="description" className="col-6 align-items-stretch form-label">
+                    Description: 
+                  </label>
                   <textarea 
                     {...register("description", {maxLength: {value: 200, message: "Description cannot be longer than 200 characters"}})}
                     id="description" 
@@ -127,7 +122,10 @@ function Create () {
                   />
                   <div className="text-danger">{errors.description?.message as string}</div>
                 </div>
-                <div className="col-6 d-flex flex-column">
+                <div className="col-12 col-md-6 d-flex flex-column gx-0 gx-md-3">
+                  <label htmlFor="subcategory" className="category-dropdown col">
+                    Subcategory:
+                  </label>
                   <select 
                     {...register("recipe_subcategory_id")}
                     className="dropdown col" 
@@ -141,10 +139,10 @@ function Create () {
                       })}
                   </select>
                 </div>
-
               </div>
+              {/* This is where the Upload Photo button starts */}
               <div className="row data-row justify-content-start">
-                <button className="photo-button col-4" id="photo" onClick={(e) => {
+                <button className="photo-button col-12 col-md-4" id="photo" onClick={(e) => {
                   e.preventDefault();
                   console.log("Not implemented");
                   }}>Upload Photo</button>
@@ -177,38 +175,45 @@ function Create () {
                   />
                   <div className="text-danger">{errors.notes?.message as string}</div>
               </label>
-              <div className="row data-row">
-                <label htmlFor="prepTime" className="col">
-                    Prep Time: 
-                    <input 
+              <div className="row">
+                <div className="col-12 col-lg-4 d-flex flex-column">
+                  <label htmlFor="prepTime" className="col prep-row-label">
+                      Prep Time: 
+                  </label>
+                  <input 
                     {...register("preparation_time", {maxLength: {value: 30, message: "Prep time cannot exceed 30 characters"}})} 
                     id="prepTime" 
-                    className="prep-row-text-field" 
+                    className="text-background" 
                     ></input>
-                    <div className="text-danger">{errors.preparation_time?.message as string}</div>
-                </label>
-                <label htmlFor="cookTime" className="col">
-                    Cook Time: 
-                    <input 
+                  <div className="text-danger">{errors.preparation_time?.message as string}</div>
+                </div>
+                <div className="col-12 col-lg-4 d-flex flex-column">
+                  <label htmlFor="cookTime" className="col prep-row-label">
+                      Cook Time: 
+                  </label>
+                  <input 
                     {...register("cook_time", {maxLength: {value: 30, message: "Cook time cannot exceed 30 characters"}})} 
                     id="cookTime" 
-                    className="prep-row-text-field" 
-                    ></input>
-                    <div className="text-danger">{errors.cook_time?.message as string}</div>
-                </label>
-                <label htmlFor="servings" className="col">
-                    Servings: 
-                    <input 
+                    className="text-background" 
+                    >
+                  </input>
+                  <div className="text-danger">{errors.cook_time?.message as string}</div>
+                </div>
+                <div className="col-12 col-lg-4 d-flex flex-column">
+                  <label htmlFor="servings" className="col prep-row-label">
+                      Servings: 
+                  </label>
+                  <input 
                     {...register("servings")} 
                     id="servings" 
-                    className="prep-row-text-field" 
+                    className="text-background" 
                     type="number" 
                     defaultValue={0}
-                    ></input>
-                </label>
+                  ></input>
+                </div>
               </div>
               <div className="row data-row justify-content-end">
-                <button type="submit" className="save-button col-4">Save</button>
+                <button type="submit" className="save-button col-12 col-md-4">Save</button>
               </div>
             </form>
           </div>

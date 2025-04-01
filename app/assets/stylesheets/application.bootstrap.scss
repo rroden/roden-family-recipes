@@ -25,6 +25,8 @@
 }
 .create-page-title {
   @extend .home-page-title;
+  color: black;
+  text-decoration: none;
   grid-column: span 11;
 }
 .base-button {
@@ -92,7 +94,7 @@
   height: 100%;
 }
 .category-dropdown{
-  padding-left: 1rem;
+  max-height: 2.2rem;
 }
 .create-page-background {
   position: relative;
@@ -151,7 +153,9 @@ body, html {
 }
 .name-text-background, .description-text-background {
   @extend .text-background;
-  margin-right: 1rem;
+  @include media-breakpoint-up(lg) {
+    margin-right: 1rem;
+  }
 }
 .form-label, .description-col, .name-col {
   padding-left: 0rem;
@@ -164,9 +168,9 @@ body, html {
 .data-row {
   margin-top: 2rem;
 }
-.prep-row-text-field {
-  @extend .text-background;
-  margin-left: 2rem;
+.prep-row-label {
+  @extend .data-row;
+  margin-bottom: 0.5rem;
 }
 .errorMessage {
   color: crimson;

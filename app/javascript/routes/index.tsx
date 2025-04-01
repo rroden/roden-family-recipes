@@ -4,6 +4,7 @@ import Create from "../components/recipe/Create";
 import CategoryCreate from "../components/recipe_category/Create"
 import SubcategoryCreate from "../components/recipe_subcategory/Create"
 import CategoryShow from "../components/recipe_category/Show"
+import Show from "../components/recipe/Show";
 
 export default (
   <Router>
@@ -13,6 +14,7 @@ export default (
       <Route path="/recipe_categories/create" element={<CategoryCreate/>}/>
       <Route path="/recipe_subcategories/create" element={<SubcategoryCreate/>}/>
       <Route path="/recipe_categories/:id" element={<CategoryShow/>}/>
+      <Route path="/recipe/:id" element={<Show/>}/>
     </Routes>
   </Router>
 );

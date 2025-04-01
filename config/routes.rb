@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  get "*path", to: "homepage#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  get "*path", to: "recipes#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 
   root "recipes#index"
   get "/recipes", to: "recipes#index"
