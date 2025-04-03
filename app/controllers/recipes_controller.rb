@@ -20,7 +20,8 @@ class RecipesController < ApplicationController
   private
 
   def recipe_params
-    # TODO: Allow more params
-    params.permit(:name, :ingredients, :instructions, :description, :notes, :cook_time, :servings, :prep_time, :recipe_category_id, :recipe_subcategory_id)
+    params.require(:recipe).permit(:name, :ingredients, :instructions, :description, 
+                                   :notes, :cook_time, :servings, :preparation_time, 
+                                   :recipe_category_id, :recipe_subcategory_id, :photo)
   end
 end

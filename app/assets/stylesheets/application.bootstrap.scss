@@ -83,6 +83,9 @@
   color: #403F3F;
   justify-self: right;
 }
+.checkmark {
+  fill: #96B7A0;
+}
 .create-recipe-grid {
   width: 83%;
   margin-top: 2rem;
@@ -167,6 +170,9 @@ body, html {
 }
 .data-row {
   margin-top: 2rem;
+}
+.photo-name-row {
+  margin-top: 1rem;
 }
 .prep-row-label {
   @extend .data-row;

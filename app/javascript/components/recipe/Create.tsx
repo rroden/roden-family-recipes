@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CreateFormHeader from "./CreateFormHeader";
 import CreatePageHeader from "./CreatePageHeader";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import CheckMark from "./CheckMark";
 
 type FormData = {
   name: string
@@ -15,12 +16,15 @@ type FormData = {
   preparation_time: string
   cook_time: string
   servings: string
+  photo: any
 }
 
 function Create () {
     const { register, handleSubmit, watch, formState: {errors} } = useForm<FormData>();
+    const hiddenInputRef = useRef();
     const [categories, setCategories] = useState([]);
     const [subcategories, setSubcategories] = useState([])
+    const { ref: registerRef } = register("photo");
 
     const selectedCategory = watch("recipe_category_id");
     const navigate = useNavigate();
@@ -41,34 +45,58 @@ function Create () {
         .catch((error) => console.error("Error fetching subcategories:", error));
     }, []);
 
-    const onSubmit = (data: FormData) => {
-        console.log(`Handling submit with ${JSON.stringify(data)}...`);
-        const url = "/recipes";
+    const onUpload = () => {
+      hiddenInputRef.current.click();
+    };
+
+    let photo = watch("photo");
+
+    const onSubmit = (data: FormData) => {    
+      const url = "/recipes";
     
-        if (data.name.length == 0 || data.ingredients.length == 0 || data.instructions.length == 0 || data.recipe_category_id == ""){
-          console.log("Required field is missing");
-          return;
-        }
+      // TODO: see if you can get rid of this
+      if (!data.name || !data.ingredients || !data.instructions || !data.recipe_category_id) {
+        console.log("Required field is missing");
+        return;
+      }
     
-        const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
-        fetch(url, {
-          method: "POST",
-          headers: {
-            "X-CSRF-Token": token,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+      const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
+      const formData = new FormData();
+    
+      // Append all text fields
+      formData.append("recipe[name]", data.name);
+      formData.append("recipe[recipe_category_id]", data.recipe_category_id);
+      formData.append("recipe[description]", data.description || "");
+      formData.append("recipe[recipe_subcategory_id]", data.recipe_subcategory_id || "");
+      formData.append("recipe[ingredients]", data.ingredients);
+      formData.append("recipe[instructions]", data.instructions);
+      formData.append("recipe[notes]", data.notes || "");
+      formData.append("recipe[preparation_time]", data.preparation_time || "");
+      formData.append("recipe[cook_time]", data.cook_time || "");
+      formData.append("recipe[servings]", data.servings || "");
+    
+      // Append photo if selected
+      if (data.photo && data.photo[0]) {
+        formData.append("recipe[photo]", data.photo[0]);
+      }
+    
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "X-CSRF-Token": token
+        },
+        body: formData,
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log("Response was OK");
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
         })
-          .then((response) => {
-            if (response.ok) {
-              console.log("Response was OK");
-              return response.json();
-            }
-            throw new Error("Network response was not ok.");
-          })
-          .then((response) => navigate(`/recipe/${response.id}`))
-          .catch((error) => console.log(error.message));
-      };
+        .then((response) => navigate(`/recipe/${response.id}`))
+        .catch((error) => console.log(error.message));
+    };
     
     return (
         <div className="create-page-background">
@@ -142,11 +170,29 @@ function Create () {
               </div>
               {/* This is where the Upload Photo button starts */}
               <div className="row data-row justify-content-start">
-                <button className="photo-button col-12 col-md-4" id="photo" onClick={(e) => {
-                  e.preventDefault();
-                  console.log("Not implemented");
-                  }}>Upload Photo</button>
+                <button className="photo-button col-12 col-md-4" id="photo" onClick={onUpload}>Upload Photo</button>
+                <input 
+                  {...register("photo")} 
+                  hidden={true}
+                  id="photo" 
+                  name="photo" 
+                  type="file"
+                  accept="image/*"
+                  ref={(e) => {
+                    registerRef(e);
+                    hiddenInputRef.current = e;
+                  }}
+                >
+                </input>
               </div>
+              {photo && photo[0]?.name && 
+                <div className="row photo-name-row">
+                    <div className="col-4 d-flex flex-row gx-0">
+                      <CheckMark/>
+                      <p className="ms-2">{photo[0].name}</p>
+                    </div>
+                </div> 
+              }
               {/* Beginning of ingredients section */}
               <label htmlFor="ingredients" className="row data-row">
                   Ingredients: 
