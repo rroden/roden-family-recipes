@@ -3,7 +3,7 @@ import CreateFormHeader from "./CreateFormHeader";
 import CreatePageHeader from "./CreatePageHeader";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import CheckMark from "./CheckMark";
+import CheckMark from "./icons/CheckMark";
 
 type FormData = {
   name: string
@@ -45,7 +45,8 @@ function Create () {
         .catch((error) => console.error("Error fetching subcategories:", error));
     }, []);
 
-    const onUpload = () => {
+    const onUpload = (e: Event) => {
+      e.preventDefault();
       hiddenInputRef.current.click();
     };
 

@@ -150,6 +150,10 @@ body, html {
   font-size: 1.2rem;
   background: rgba(251, 246, 239, 0.75); /* Adjust color & opacity */
 }
+.show-recipe-form {
+  @extend .create-recipe-form;
+  padding-top: 3rem;
+}
 .form-header-row {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -174,10 +178,46 @@ body, html {
 .photo-name-row {
   margin-top: 1rem;
 }
+.recipe-photo{
+  border-color: white;
+  border-radius: 0.4rem;
+  border-style: solid;
+  border-width: 0.25rem;
+}
 .prep-row-label {
   @extend .data-row;
   margin-bottom: 0.5rem;
 }
+.prep-time-rows {
+  margin-top: 1rem;
+  min-height: 2.4rem;
+  max-height: 2.4rem;
+}
 .errorMessage {
   color: crimson;
+}
+.description {
+  margin-top: 1rem;
+  @include media-breakpoint-down(lg) {
+    text-align: center;
+  }
+}
+.ingredients-label {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+.ingredients, .instructions {
+  white-space: pre-line;
+}
+.img-div{
+  height: 15rem;
+}
+.mobile-row {
+  @include media-breakpoint-down(lg) {
+    justify-content: center; 
+    align-items: center;
+  }
+}
+.data-fields{
+  text-align: start;
 }

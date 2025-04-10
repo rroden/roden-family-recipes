@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get "recipes/new", to: "recipes#new"
   post "/recipes", to: "recipes#create"
   get "/recipes/:id", to: "recipes#show"
+  get "/recipes/:id/edit", to: "recipes#edit"
 
   get "/recipe_categories", to: "recipe_categories#index"
   get "recipe_categories/new", to: "recipe_categories#new"
@@ -27,17 +28,4 @@ Rails.application.routes.draw do
   get "recipe_subcategories/new", to: "recipe_subcategories#new"
   post "/recipe_subcategories", to: "recipe_subcategories#create"
   get "/recipe_subcategories/:id", to: "recipe_subcategories#show"
-
-  #   get "/products", to: "products#index"
-
-  # get "/products/new", to: "products#new"
-  # post "/products", to: "products#create"
-
-  # get "/products/:id", to: "products#show"
-
-  # get "/products/:id/edit", to: "products#edit"
-  # patch "/products/:id", to: "products#update"
-  # put "/products/:id", to: "products#update"
-
-  # delete "/products/:id", to: "products#destroy"
 end
