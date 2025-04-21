@@ -22,8 +22,3 @@
     position: relative;
     z-index: 2; /* Ensures text stays above the overlay */
 }
-.create-recipe-button {
-    @extend .green-button;
-    grid-column: span 2;
-    display: grid;
-}

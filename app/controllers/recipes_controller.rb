@@ -1,7 +1,11 @@
 class RecipesController < ApplicationController
-  before_action :set_recipe, only: %i[show]
+  before_action :set_recipe, only: %i[show edit update]
+
   def index
+    recipes = Recipe.all.order("LOWER(name)")
+    render json: recipes.map {|recipe| recipe_json(recipe) }
   end
+
   def create
     # Exclamation point raises an error
     recipe = Recipe.create!(recipe_params)
@@ -17,6 +21,17 @@ class RecipesController < ApplicationController
   end
 
   def destroy
+  end
+
+  def edit
+  end
+
+  def update
+    if @recipe.update!(recipe_params)
+      render json: recipe_json(@recipe)
+    else
+      render json: @recipe.errors
+    end
   end
 
   private

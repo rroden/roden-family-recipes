@@ -66,10 +66,21 @@
   border: none;
   background-color: #FBF6EF;
   font-family: 'Newsreader';
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   max-height: 2.2rem;
   min-height: 2.2rem;
+}
+.index-page-dropdown {
+  @extend .dropdown;
+  font-size: 1.25rem;
+}
+.dropdown-button {
+  border-radius: 0.4rem;
+  background-color: #FBF6EF;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  border: none;
 }
 .create-recipe-button:hover {
   background-color: #96B7A0;
@@ -220,4 +231,40 @@ body, html {
 }
 .data-fields{
   text-align: start;
+}
+.filters-link{
+  background: none;
+  border: none;
+  min-height: 2.2rem;
+  font-family: 'Newsreader';
+}
+.filters-column{
+  font-size: 1.25rem;
+  :hover {
+    text-decoration: underline;
+  }
+}
+.filter-row{
+  min-height: 4rem;
+  max-height: 4rem;
+  align-items: center;
+}
+.create-recipe-button {
+  @extend .green-button;
+  grid-column: span 2;
+  display: grid;
+  min-width: 16rem;
+  max-width: 16rem;
+  place-self: end;
+}
+.recipe-name {
+  font-family: 'Newsreader';
+  font-size: 2rem;
+  color:#293241;
+}
+.recipe-name-banner{
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  background-color: rgba(251, 246, 239, 0.45);
 }

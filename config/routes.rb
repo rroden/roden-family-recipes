@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "homepage/index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,14 +11,15 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  get "*path", to: "recipes#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  get "*path", to: "homepage#index", constraints: ->(req) { !req.xhr? && req.format.html? }
 
-  root "recipes#index"
+  root "homepage#index"
   get "/recipes", to: "recipes#index"
   get "recipes/new", to: "recipes#new"
   post "/recipes", to: "recipes#create"
   get "/recipes/:id", to: "recipes#show"
   get "/recipes/:id/edit", to: "recipes#edit"
+  patch "/recipes/:id", to: "recipes#update"
 
   get "/recipe_categories", to: "recipe_categories#index"
   get "recipe_categories/new", to: "recipe_categories#new"

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import CreateFormHeader from "./CreateFormHeader";
-import CreatePageHeader from "./CreatePageHeader";
+import CreateFormHeader from "./components/CreateFormHeader";
+import CreatePageHeader from "./components/CreatePageHeader";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CheckMark from "./icons/CheckMark";
@@ -105,7 +105,7 @@ function Create () {
           <CreatePageHeader/>
         <div className="jumbotron jumbotron-fluid bg-transparent">
           <div className="create-recipe-grid col-10 container">
-            <CreateFormHeader/>
+            <CreateFormHeader title="Add a Recipe"/>
             {/* The Form: */}
             <form onSubmit={handleSubmit(onSubmit)} className="create-recipe-form">
               {/* First row - name & category */}
@@ -255,7 +255,6 @@ function Create () {
                     id="servings" 
                     className="text-background" 
                     type="number" 
-                    defaultValue={0}
                   ></input>
                 </div>
               </div>

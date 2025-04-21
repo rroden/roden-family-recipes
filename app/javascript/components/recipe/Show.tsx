@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import CreatePageHeader from "./CreatePageHeader";
+import CreatePageHeader from "./components/CreatePageHeader";
 import Clock from "./icons/Clock";
 import Utensils from "./icons/Utensils";
 
-interface Recipe {
+export interface Recipe {
     name: string;
     description: string;
     ingredients: string;
@@ -12,8 +12,10 @@ interface Recipe {
     notes: string;
     preparation_time: string;
     cook_time: string;
-    servings: number;
+    servings: string;
     photo_url: string;
+    recipe_category_id: number;
+    recipe_subcategory_id: number;
 }
 
 function Show() {
@@ -27,8 +29,10 @@ function Show() {
         notes: "",
         preparation_time: "",
         cook_time: "",
-        servings: 0,
-        photo_url: undefined
+        servings: undefined,
+        photo_url: undefined,
+        recipe_category_id: undefined,
+        recipe_subcategory_id: undefined
     };
 
     let [recipe, setRecipe] = useState<Recipe>(defaultRecipe);
