@@ -3,7 +3,7 @@ class RecipesController < ApplicationController
 
   def index
     recipes = Recipe.all.order("LOWER(name)")
-    render json: recipes.map {|recipe| recipe_json(recipe) }
+    render json: recipes.map { |recipe| recipe_json(recipe) }
   end
 
   def create
