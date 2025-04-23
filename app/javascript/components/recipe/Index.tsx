@@ -138,7 +138,7 @@ function Index() {
                 {recipesToShow.map((recipe) => {
                     return (
                     <div className="col-4" key={recipe.id}>
-                        <Link to={`recipe/${recipe.id}`}>
+                        <Link to={`recipes/${recipe.id}`}>
                             <div style={{ position: "relative", width: "100%", paddingTop: "100%" }}>
                                 <img
                                     src={recipe?.photo_url}

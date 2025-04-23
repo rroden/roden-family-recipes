@@ -82,7 +82,6 @@ function Edit () {
     };
 
     let photo = watch("photo");
-    let photo_url = watch("photo_url");
 
     const getPhotoName = (photo: any, photo_url: string | null) => {
       if (photo && photo.length > 0) {
@@ -94,6 +93,25 @@ function Edit () {
     };
     
     const photo_name = getPhotoName(photo, initialPhotoName);
+
+    const handleDelete = () => {
+      const url = `/recipes/${recipeId}`;
+      const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
+
+      fetch(url, {
+        method: "DELETE",
+        headers: {
+          "X-CSRF-Token": token
+        }
+      }).then((response) => {
+        if (response.ok){
+          navigate("/")
+        }
+        else {
+          throw new Error("Response was not ok");
+        }
+      }).catch((error) => console.log(error.message))
+    };
 
     const onSubmit = (data: FormData) => {    
       const url = `/recipes/${recipeId}`;
@@ -138,7 +156,7 @@ function Edit () {
           }
           throw new Error("Network response was not ok.");
         })
-        .then((response) => navigate(`/recipe/${response.id}`))
+        .then((response) => navigate(`/recipes/${response.id}`))
         .catch((error) => console.log(error.message));
     };
     
@@ -301,8 +319,9 @@ function Edit () {
                   ></input>
                 </div>
               </div>
-              <div className="row data-row justify-content-end">
-                <button type="submit" className="save-button col-12 col-md-4">Save</button>
+              <div className="d-flex justify-content-between flex-column flex-md-row data-row">
+                  <button onClick={handleDelete} type="button" className="save-button mb-2 mb-md-0 col-12 col-md-4">Delete</button>
+                  <button type="submit" className="save-button col-12 col-md-4">Save</button>
               </div>
             </form>
           </div>

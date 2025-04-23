@@ -1,5 +1,5 @@
 class RecipesController < ApplicationController
-  before_action :set_recipe, only: %i[show edit update]
+  before_action :set_recipe, only: %i[show edit update destroy]
 
   def index
     recipes = Recipe.all.order("LOWER(name)")
@@ -21,6 +21,7 @@ class RecipesController < ApplicationController
   end
 
   def destroy
+    @recipe.destroy
   end
 
   def edit

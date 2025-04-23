@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get "/recipes/:id", to: "recipes#show"
   get "/recipes/:id/edit", to: "recipes#edit"
   patch "/recipes/:id", to: "recipes#update"
+  delete "/recipes/:id", to: "recipes#destroy"
 
   get "/recipe_categories", to: "recipe_categories#index"
   get "recipe_categories/new", to: "recipe_categories#new"

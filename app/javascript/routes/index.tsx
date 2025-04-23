@@ -11,12 +11,12 @@ export default (
   <Router>
     <Routes>
       <Route path="/" element={<Index />} />
-      <Route path="/recipes" element={<Index />} />
+      {/* <Route path="/recipes" element={<Index />} /> */}
       <Route path="/recipes/create" element={<Create />} />
       <Route path="/recipe_categories/create" element={<CategoryCreate/>}/>
       <Route path="/recipe_subcategories/create" element={<SubcategoryCreate/>}/>
       <Route path="/recipe_categories/:id" element={<CategoryShow/>}/>
-      <Route path="/recipe/:id" element={<Show/>}/>
+      <Route path="/recipes/:id" element={<Show/>}/>
       <Route path="/recipes/:id/edit" element={<Edit/>}/>
     </Routes>
   </Router>

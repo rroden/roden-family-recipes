@@ -45,7 +45,7 @@ function Create () {
         .catch((error) => console.error("Error fetching subcategories:", error));
     }, []);
 
-    const onUpload = (e: Event) => {
+    const onUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
       hiddenInputRef.current.click();
     };
@@ -95,7 +95,7 @@ function Create () {
           }
           throw new Error("Network response was not ok.");
         })
-        .then((response) => navigate(`/recipe/${response.id}`))
+        .then((response) => navigate(`/recipes/${response.id}`))
         .catch((error) => console.log(error.message));
     };
     
@@ -171,7 +171,7 @@ function Create () {
               </div>
               {/* This is where the Upload Photo button starts */}
               <div className="row data-row justify-content-start">
-                <button className="photo-button col-12 col-md-4" id="photo" onClick={onUpload}>Upload Photo</button>
+                <button className="photo-button col-12 col-md-4" id="photo" onClick={(e) => onUpload(e)}>Upload Photo</button>
                 <input 
                   {...register("photo")} 
                   hidden={true}
