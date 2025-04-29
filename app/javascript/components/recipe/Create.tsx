@@ -1,32 +1,14 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import CreateFormHeader from "./components/CreateFormHeader";
 import CreatePageHeader from "./components/CreatePageHeader";
-import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import CheckMark from "./icons/CheckMark";
-
-type FormData = {
-  name: string
-  recipe_category_id: string
-  description: string
-  recipe_subcategory_id: string
-  ingredients: string
-  instructions: string
-  notes: string
-  preparation_time: string
-  cook_time: string
-  servings: string
-  photo: any
-}
+import type { FormData, Category, Subcategory } from "./types/recipe_types";
+import RecipeForm from "./components/RecipeForm";
 
 function Create () {
-    const { register, handleSubmit, watch, formState: {errors} } = useForm<FormData>();
-    const hiddenInputRef = useRef();
-    const [categories, setCategories] = useState([]);
-    const [subcategories, setSubcategories] = useState([])
-    const { ref: registerRef } = register("photo");
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [subcategories, setSubcategories] = useState<Subcategory[]>([])
 
-    const selectedCategory = watch("recipe_category_id");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -44,13 +26,6 @@ function Create () {
         })
         .catch((error) => console.error("Error fetching subcategories:", error));
     }, []);
-
-    const onUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-      hiddenInputRef.current.click();
-    };
-
-    let photo = watch("photo");
 
     const onSubmit = (data: FormData) => {    
       const url = "/recipes";
@@ -106,162 +81,7 @@ function Create () {
         <div className="jumbotron jumbotron-fluid bg-transparent">
           <div className="create-recipe-grid col-10 container">
             <CreateFormHeader title="Add a Recipe"/>
-            {/* The Form: */}
-            <form onSubmit={handleSubmit(onSubmit)} className="create-recipe-form">
-              {/* First row - name & category */}
-              <div className="row data-row">
-                <div className="col-12 col-md-6 d-flex flex-column name-col gx-0 gx-md-3">
-                  <label htmlFor="name" className="col-6 form-label">
-                    Name: 
-                  </label>
-                  <input
-                    {...register("name", {required: "Name is required", maxLength: {value: 50, message: "Title cannot be longer than 50 characters"}})}
-                    id="name"
-                    className="name-text-background"
-                  />
-                  <div className="text-danger">{errors.name?.message as string}</div>
-                </div>
-                <div className="col-12 col-md-6 d-flex flex-column gx-0 gx-md-3">
-                  <label htmlFor="category" className="category-dropdown col">
-                    Category:
-                  </label>
-                  <select 
-                    {...register("recipe_category_id", {required: "Category is required"})} 
-                    className="dropdown col" 
-                    id="category" 
-                  >
-                      <option value="">Select a category</option>
-                      {categories.map((category) => {
-                        return <option key={category.id} value={category.id}>{category.name}</option>
-                      }) }
-                  </select>
-                  <div className="text-danger">{errors.recipe_category_id?.message as string}</div>
-                </div>
-              </div>
-              {/* Second row: */}
-              <div className="row data-row">
-                <div className="col-12 col-md-6 d-flex flex-column description-col gx-0 gx-md-3">
-                  <label htmlFor="description" className="col-6 align-items-stretch form-label">
-                    Description: 
-                  </label>
-                  <textarea 
-                    {...register("description", {maxLength: {value: 200, message: "Description cannot be longer than 200 characters"}})}
-                    id="description" 
-                    className="description-text-background"
-                  />
-                  <div className="text-danger">{errors.description?.message as string}</div>
-                </div>
-                <div className="col-12 col-md-6 d-flex flex-column gx-0 gx-md-3">
-                  <label htmlFor="subcategory" className="category-dropdown col">
-                    Subcategory:
-                  </label>
-                  <select 
-                    {...register("recipe_subcategory_id")}
-                    className="dropdown col" 
-                    id="subcategory" 
-                    >
-                      <option value="">Select a subcategory</option>
-                      {subcategories.map((subcategory) => {
-                        if (subcategory.recipe_category_id == selectedCategory){
-                          return <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
-                        }
-                      })}
-                  </select>
-                </div>
-              </div>
-              {/* This is where the Upload Photo button starts */}
-              <div className="row data-row justify-content-start">
-                <button className="photo-button col-12 col-md-4" id="photo" onClick={(e) => onUpload(e)}>Upload Photo</button>
-                <input 
-                  {...register("photo")} 
-                  hidden={true}
-                  id="photo" 
-                  name="photo" 
-                  type="file"
-                  accept="image/*"
-                  ref={(e) => {
-                    registerRef(e);
-                    hiddenInputRef.current = e;
-                  }}
-                >
-                </input>
-              </div>
-              {photo && photo[0]?.name && 
-                <div className="row photo-name-row">
-                    <div className="col-4 d-flex flex-row gx-0">
-                      <CheckMark/>
-                      <p className="ms-2">{photo[0].name}</p>
-                    </div>
-                </div> 
-              }
-              {/* Beginning of ingredients section */}
-              <label htmlFor="ingredients" className="row data-row">
-                  Ingredients: 
-                  <textarea 
-                      {...register("ingredients", {required: "Ingredients are required", maxLength: {value: 1000, message: "Ingredients cannot exceed 1000 characters"}})}
-                      id="ingredients" 
-                      className="large-text-field"
-                  />
-                  <div className="text-danger">{errors.ingredients?.message as string}</div>
-              </label>
-              <label htmlFor="instructions" className="row data-row">
-                  Instructions: 
-                  <textarea 
-                      {...register("instructions", {required: "Instructions are required", maxLength: {value: 1000, message: "Instructions cannot exceed 1000 characters"}})}
-                      id="instructions" 
-                      className="large-text-field"
-                  />
-                  <div className="text-danger">{errors.instructions?.message as string}</div>
-              </label>
-              <label htmlFor="notes" className="row data-row">
-                  Notes: 
-                  <textarea 
-                      {...register("notes", {maxLength: {value: 1000, message: "Notes cannot exceed 1000 characters"}})}
-                      id="notes" 
-                      className="large-text-field"
-                  />
-                  <div className="text-danger">{errors.notes?.message as string}</div>
-              </label>
-              <div className="row">
-                <div className="col-12 col-lg-4 d-flex flex-column">
-                  <label htmlFor="prepTime" className="col prep-row-label">
-                      Prep Time: 
-                  </label>
-                  <input 
-                    {...register("preparation_time", {maxLength: {value: 30, message: "Prep time cannot exceed 30 characters"}})} 
-                    id="prepTime" 
-                    className="text-background" 
-                    ></input>
-                  <div className="text-danger">{errors.preparation_time?.message as string}</div>
-                </div>
-                <div className="col-12 col-lg-4 d-flex flex-column">
-                  <label htmlFor="cookTime" className="col prep-row-label">
-                      Cook Time: 
-                  </label>
-                  <input 
-                    {...register("cook_time", {maxLength: {value: 30, message: "Cook time cannot exceed 30 characters"}})} 
-                    id="cookTime" 
-                    className="text-background" 
-                    >
-                  </input>
-                  <div className="text-danger">{errors.cook_time?.message as string}</div>
-                </div>
-                <div className="col-12 col-lg-4 d-flex flex-column">
-                  <label htmlFor="servings" className="col prep-row-label">
-                      Servings: 
-                  </label>
-                  <input 
-                    {...register("servings")} 
-                    id="servings" 
-                    className="text-background" 
-                    type="number" 
-                  ></input>
-                </div>
-              </div>
-              <div className="row data-row justify-content-end">
-                <button type="submit" className="save-button col-12 col-md-4">Save</button>
-              </div>
-            </form>
+            <RecipeForm showDelete={false} onSubmit={onSubmit} categories={categories} subcategories={subcategories}/>
           </div>
         </div>
     </div>
