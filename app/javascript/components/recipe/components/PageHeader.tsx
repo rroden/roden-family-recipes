@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-function CreatePageHeader() {
+function PageHeader() {
     return (
         <header className="home-page-header">
             <Link to="/" className="create-page-title">Roden Family Recipes</Link>
@@ -15,4 +15,4 @@ function CreatePageHeader() {
     )
 };
 
-export default CreatePageHeader;
+export default PageHeader;

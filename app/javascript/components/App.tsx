@@ -1,3 +1,10 @@
-import Routes from "../routes";
+import { AppProvider } from "../context/AppContext";
+import AppRoutes from "../routes";
 
-export default (props: any) => <>{Routes}</>;
+const App = () => (
+    <AppProvider>
+      <AppRoutes />
+    </AppProvider>
+  );
+  
+  export default App;

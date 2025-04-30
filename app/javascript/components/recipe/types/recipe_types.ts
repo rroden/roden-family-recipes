@@ -1,4 +1,4 @@
-export interface FormData {
+interface BaseRecipe {
     name: string
     recipe_category_id: string
     description: string
@@ -8,11 +8,13 @@ export interface FormData {
     notes: string
     preparation_time: string
     cook_time: string
-    servings: string
-    photo: any
+    servings: string 
+}
+export interface RecipeFormData extends BaseRecipe {
+    photo: FileList
 }
 
-export interface Recipe extends FormData {
+export interface Recipe extends BaseRecipe {
     photo_url: string
 }
 

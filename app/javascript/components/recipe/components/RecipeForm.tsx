@@ -1,22 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { Category, FormData, Recipe, Subcategory } from "../types/recipe_types";
+import type { Recipe, RecipeFormData } from "../types/recipe_types";
 import CheckMark from "../icons/CheckMark";
+import { useAppContext } from "../../../context/AppContext";
 
 interface RecipeFormProps {
-    categories: Category[];
-    subcategories: Subcategory[]
-    onSubmit: (data: FormData) => void;
+    onSubmit: (data: RecipeFormData) => void;
     showDelete: boolean;
     handleDelete?: () => void;
     initialValues?: Recipe;
 }
+
 function RecipeForm(props: RecipeFormProps){
-    const { register, handleSubmit, watch, formState: {errors}, reset } = useForm<Recipe>();
-    const hiddenInputRef = useRef();
+    const { register, handleSubmit, watch, formState: {errors}, reset } = useForm<RecipeFormData>();
+    const hiddenInputRef = useRef(null);
     const { ref: registerRef } = register("photo");
     const selectedCategory = watch("recipe_category_id");
     const [initialPhotoName, setInitialPhotoName] = useState<string | null>(null);
+    const { categories, subcategories } = useAppContext();
 
     const onUpload = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
@@ -34,7 +35,7 @@ function RecipeForm(props: RecipeFormProps){
         return null;
       };
       
-      const photo_name = getPhotoName(photo, initialPhotoName);
+    const photoName = getPhotoName(photo, initialPhotoName);
 
     useEffect(() => {
         reset(props.initialValues)
@@ -69,7 +70,7 @@ function RecipeForm(props: RecipeFormProps){
             id="category" 
             >
                 <option value="">Select a category</option>
-                {props.categories.map((category) => {
+                {categories.map((category) => {
                 return <option key={category.id} value={category.id}>{category.name}</option>
                 }) }
             </select>
@@ -99,7 +100,7 @@ function RecipeForm(props: RecipeFormProps){
             id="subcategory" 
             >
                 <option value="">Select a subcategory</option>
-                {props.subcategories.map((subcategory) => {
+                {subcategories.map((subcategory) => {
                 if (String(subcategory.recipe_category_id) == selectedCategory){
                     return <option key={subcategory.id} value={subcategory.id}>{subcategory.name}</option>
                 }
@@ -124,19 +125,11 @@ function RecipeForm(props: RecipeFormProps){
         >
         </input>
         </div>
-        {photo && photo[0]?.name &&
+        {photoName &&
         <div className="row photo-name-row">
             <div className="col-4 d-flex flex-row gx-0">
                 <CheckMark/>
-                <p className="ms-2">{photo[0].name}</p>
-            </div>
-        </div> 
-        }
-        {photo_name && !photo &&
-        <div className="row photo-name-row">
-            <div className="col-4 d-flex flex-row gx-0">
-                <CheckMark/>
-                <p className="ms-2">{photo_name}</p>
+                <p className="ms-2">{photoName}</p>
             </div>
         </div> 
         }

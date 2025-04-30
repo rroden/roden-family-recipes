@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import CreatePageHeader from "./components/CreatePageHeader";
+import { getRecipes } from "../api/recipes";
+import { useAppContext } from "../../context/AppContext";
 
 function Index() {
     let [recipes, setRecipes] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [subcategories, setSubcategories] = useState([])
+    const { categories, subcategories } = useAppContext();
 
     const [filterCategory, setFilterCategory] = useState<string>("");
     const [filterSubCategory, setFilterSubcategory] = useState<string>("");
@@ -39,41 +39,19 @@ function Index() {
     }
 
     useEffect(() => {
-        fetch("/recipe_categories")
-          .then((response) => response.json())
-          .then((data) => setCategories(data))
-          .catch((error) => console.error("Error fetching categories:", error));
-      }, []);
-  
-      useEffect(() => {
-        fetch("/recipe_subcategories")
-          .then((response) => response.json())
-          .then((data) => {
-            setSubcategories(data)
-          })
-          .catch((error) => console.error("Error fetching subcategories:", error));
-      }, []);
 
-    useEffect(() => {
-        const token = (document.querySelector('meta[name="csrf-token"]' ) as HTMLMetaElement)?.content;
-        let url = `/recipes`;
-        fetch(url, {
-            headers: {
-                "X-CSRF-Token": token,
-                "Accept": "application/json"
+        const getData = async() => {
+            try {
+                let response = await getRecipes()
+                setRecipes(response);
             }
-            })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json();
-                }
-                throw new Error("Network response was not ok.");
-            })
-            .then((res) => {
-                console.log(res);
-                setRecipes(res);
-            })
-            .catch((error) => console.log(error.message));
+            catch (error) {
+                console.log(error.message)
+            }
+        }
+
+        getData();
+
     }, [])
 
     const handleClearFilters = () => {
@@ -82,10 +60,7 @@ function Index() {
     }
 
     return (
-        <div className="home-page-background vw-100 h-100">
-            <div className="overlay"></div>
-            <CreatePageHeader/>
-            <div className="jumbotron jumbotron-fluid bg-transparent">
+        <div className="jumbotron jumbotron-fluid bg-transparent">
             <div className="container secondary-color">
                 <div className="row gx-2 pb-4 filter-row">
                     {/* div is needed in order for bootstrap grid classes to work */}
@@ -159,7 +134,6 @@ function Index() {
                     </div>)
                 })}
                 </div>
-            </div>
             </div>
         </div>
 )};
